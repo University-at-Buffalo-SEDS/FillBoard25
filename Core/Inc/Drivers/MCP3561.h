@@ -6,6 +6,8 @@
 #define MCP3561_CS_PORT		GPIOB
 #define MCP3561_CS_PIN		GPIO_PIN_0
 
+
+
 // MCP3561 Register Addresses
 
 #define ADCDATA_REG 	0x0
@@ -22,8 +24,15 @@
 #define LOCK_REG 		0xD
 #define CRCCFG_REG		0xF
 
-#define MCP3561_SPI_ADDRESS 	0x01
 
+// Timeout (ms)
+
+#define WRITE_TIMEOUT 100
+#define READ_TIMEOUT 100
+
+// COMMANDS
+
+#define FULL_RESET_CMD  0x38
 
 // CONFIG0 Register Settings
 
@@ -39,19 +48,19 @@
 
 // CONFIG2 Register Settings
 
-#define BOOST 			0x00	//00
-#define GAIN			0x08	//default
-#define AZ_MUX			0x04		 // 1 on
+#define BOOST 			0x00		//00
+#define GAIN			0x08		//default
+#define AZ_MUX			0x04		// 1 on
 #define AZ_REF			0x02		// 1 - default
 
 // CONFIG3 Register Settings
 
-#define CONV_MODE		0xC0	//11
-#define DATA_FORMAT 	0x00 // default format
-#define CRC_FORMAT		0x00	// Disabled
-#define EN_CRCCOM		0x00	// Disabled
-#define EN_OFFCAL		0x00	// Disabled
-#define EN_GAINCAL		0x00	// Disabled
+#define CONV_MODE		0xC0		//11
+#define DATA_FORMAT 	(0x2 << 4) 	// default format
+#define CRC_FORMAT		0x00		// Disabled
+#define EN_CRCCOM		0x00		// Disabled
+#define EN_OFFCAL		0x00		// Disabled
+#define EN_GAINCAL		0x00		// Disabled
 
 //	IRQ Register
 
@@ -91,11 +100,25 @@ typedef struct {
 	GPIO_TypeDef *csPort;
 	int16_t csPin;
 
+	int current_channel;
+	int32_t last_ch0_data;
+	int32_t last_ch1_data;
+
 } MCP3561_Handle_t;
 
 // Function Prototypes
 
-void mcp3561_init(MCP3561_Handle_t *handle ,SPI_HandleTypeDef *hspi);
+void MCP3561_Step(MCP3561_Handle_t *handle);
+void MCP3561_Init(MCP3561_Handle_t *handle ,SPI_HandleTypeDef *hspi);
+int32_t MCP3561_Get_CH0_Data(MCP3561_Handle_t *handle);
+int32_t MCP3561_Get_CH1_Data(MCP3561_Handle_t *handle);
+
+void read_buf(MCP3561_Handle_t *handle, uint8_t reg, uint8_t *buf, uint8_t len);
+uint8_t read_reg(MCP3561_Handle_t *handle, uint8_t reg);
+void write_reg(MCP3561_Handle_t *handle, uint8_t reg, uint8_t data);
+void full_reset(MCP3561_Handle_t *handle);
+void select_ch0(MCP3561_Handle_t *handle);
+void select_ch1(MCP3561_Handle_t *handle);
 
 #endif
 

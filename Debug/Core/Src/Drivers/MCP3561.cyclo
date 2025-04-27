@@ -1,0 +1,10 @@
+../Core/Src/Drivers/MCP3561.c:11:6:MCP3561_Init	1
+../Core/Src/Drivers/MCP3561.c:45:6:MCP3561_Step	3
+../Core/Src/Drivers/MCP3561.c:68:6:select_ch1	1
+../Core/Src/Drivers/MCP3561.c:73:6:select_ch0	1
+../Core/Src/Drivers/MCP3561.c:78:9:MCP3561_Get_CH0_Data	1
+../Core/Src/Drivers/MCP3561.c:81:9:MCP3561_Get_CH1_Data	1
+../Core/Src/Drivers/MCP3561.c:85:6:read_buf	2
+../Core/Src/Drivers/MCP3561.c:116:9:read_reg	1
+../Core/Src/Drivers/MCP3561.c:143:6:write_reg	1
+../Core/Src/Drivers/MCP3561.c:171:6:full_reset	1
